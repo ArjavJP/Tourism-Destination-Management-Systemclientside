@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="6b243404b86545dba62155adebb7d8ab" Name="Diagram1">
+        <EntityTypeShape EntityType="TourismDMSModel.Accommodation" Width="1.5" PointX="3" PointY="4.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="TourismDMSModel.AttractionMst" Width="1.5" PointX="3" PointY="8.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="TourismDMSModel.CardDetail" Width="1.5" PointX="6" PointY="15.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="TourismDMSModel.DestinationMst" Width="1.5" PointX="0.75" PointY="8.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="TourismDMSModel.Feedback" Width="1.5" PointX="5.25" PointY="6.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="TourismDMSModel.GuidesMst" Width="1.5" PointX="3" PointY="11.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="TourismDMSModel.Image" Width="1.5" PointX="5.25" PointY="11.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="TourismDMSModel.sysdiagram" Width="1.5" PointX="5.75" PointY="2.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="TourismDMSModel.TransactionMst" Width="1.5" PointX="8.25" PointY="10" IsExpanded="true" />
+        <EntityTypeShape EntityType="TourismDMSModel.UserMst" Width="1.5" PointX="3" PointY="0.75" IsExpanded="true" />
+        <AssociationConnector Association="TourismDMSModel.FK__Accommoda__Desti__5535A963" ManuallyRouted="false" />
+        <AssociationConnector Association="TourismDMSModel.FK__Feedback__Accomm__6477ECF3" ManuallyRouted="false" />
+        <AssociationConnector Association="TourismDMSModel.FK__Images__Accommod__5AEE82B9" ManuallyRouted="false" />
+        <AssociationConnector Association="TourismDMSModel.FK__Attractio__Desti__52593CB8" ManuallyRouted="false" />
+        <AssociationConnector Association="TourismDMSModel.FK__Images__Attracti__59FA5E80" ManuallyRouted="false" />
+        <AssociationConnector Association="TourismDMSModel.FK__CardDetai__UserI__6754599E" ManuallyRouted="false" />
+        <AssociationConnector Association="TourismDMSModel.FK__Transacti__CardN__6D0D32F4" ManuallyRouted="false" />
+        <AssociationConnector Association="TourismDMSModel.FK__Feedback__Destin__6383C8BA" ManuallyRouted="false" />
+        <AssociationConnector Association="TourismDMSModel.FK__GuidesMst__Desti__4F7CD00D" ManuallyRouted="false" />
+        <AssociationConnector Association="TourismDMSModel.FK__Images__Destinat__5812160E" ManuallyRouted="false" />
+        <AssociationConnector Association="TourismDMSModel.FK__Transacti__Desti__6B24EA82" ManuallyRouted="false" />
+        <AssociationConnector Association="TourismDMSModel.FK__Feedback__UserID__628FA481" ManuallyRouted="false" />
+        <AssociationConnector Association="TourismDMSModel.FK__Images__GuideID__59063A47" ManuallyRouted="false" />
+        <AssociationConnector Association="TourismDMSModel.FK__Transacti__Guide__6C190EBB" ManuallyRouted="false" />
+        <AssociationConnector Association="TourismDMSModel.FK__Transacti__UserI__6A30C649" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

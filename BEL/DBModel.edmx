@@ -1,0 +1,913 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="TourismDMSModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Accommodation">
+          <Key>
+            <PropertyRef Name="AccommodationID" />
+          </Key>
+          <Property Name="AccommodationID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DestinationID" Type="int" />
+          <Property Name="Name" Type="nvarchar" MaxLength="255" />
+          <Property Name="Address" Type="nvarchar" MaxLength="255" />
+          <Property Name="MaxCapacity" Type="int" />
+          <Property Name="Type" Type="nvarchar" MaxLength="50" />
+          <Property Name="Rent" Type="decimal" Precision="10" Scale="2" />
+        </EntityType>
+        <EntityType Name="AttractionMst">
+          <Key>
+            <PropertyRef Name="AttractionID" />
+          </Key>
+          <Property Name="AttractionID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DestinationID" Type="int" />
+          <Property Name="Activities" Type="nvarchar(max)" />
+          <Property Name="Fees" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="Location" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="CardDetails">
+          <Key>
+            <PropertyRef Name="CardNumber" />
+          </Key>
+          <Property Name="UserID" Type="int" />
+          <Property Name="CardNumber" Type="nvarchar" MaxLength="16" Nullable="false" />
+          <Property Name="CardHolderName" Type="nvarchar" MaxLength="255" />
+          <Property Name="ExpiryDate" Type="date" />
+          <Property Name="CVV" Type="int" />
+        </EntityType>
+        <EntityType Name="DestinationMst">
+          <Key>
+            <PropertyRef Name="DestinationID" />
+          </Key>
+          <Property Name="DestinationID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DestinationName" Type="nvarchar" MaxLength="255" />
+          <Property Name="DestinationAddress" Type="nvarchar" MaxLength="255" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="TransportationOptions" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Feedback">
+          <Key>
+            <PropertyRef Name="FeedbackID" />
+          </Key>
+          <Property Name="FeedbackID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserID" Type="int" />
+          <Property Name="DestinationID" Type="int" />
+          <Property Name="AccommodationID" Type="int" />
+          <Property Name="AccommodationReview" Type="int" />
+          <Property Name="DestinationReview" Type="int" />
+          <Property Name="AdditionalComments" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="GuidesMst">
+          <Key>
+            <PropertyRef Name="GuideID" />
+          </Key>
+          <Property Name="GuideID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DestinationID" Type="int" />
+          <Property Name="Name" Type="nvarchar" MaxLength="255" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="20" />
+          <Property Name="IsAvailable" Type="bit" />
+          <Property Name="Email" Type="nvarchar" MaxLength="255" />
+          <Property Name="Fees" Type="decimal" Precision="10" Scale="2" />
+        </EntityType>
+        <EntityType Name="Images">
+          <Key>
+            <PropertyRef Name="ImageID" />
+          </Key>
+          <Property Name="ImageID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DestinationID" Type="int" />
+          <Property Name="GuideID" Type="int" />
+          <Property Name="AttractionID" Type="int" />
+          <Property Name="AccommodationID" Type="int" />
+          <Property Name="Image" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="TransactionMst">
+          <Key>
+            <PropertyRef Name="TransactionID" />
+          </Key>
+          <Property Name="TransactionID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserID" Type="int" />
+          <Property Name="DestinationID" Type="int" />
+          <Property Name="GuideID" Type="int" />
+          <Property Name="CardNumber" Type="nvarchar" MaxLength="16" />
+          <Property Name="Status" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="UserMst">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="255" />
+          <Property Name="Name" Type="nvarchar" MaxLength="255" />
+          <Property Name="PhoneNo" Type="nvarchar" MaxLength="20" />
+          <Property Name="Address" Type="nvarchar" MaxLength="255" />
+          <Property Name="isAdmin" Type="bit" />
+        </EntityType>
+        <Association Name="FK__Accommoda__Desti__5535A963">
+          <End Role="DestinationMst" Type="Self.DestinationMst" Multiplicity="0..1" />
+          <End Role="Accommodation" Type="Self.Accommodation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DestinationMst">
+              <PropertyRef Name="DestinationID" />
+            </Principal>
+            <Dependent Role="Accommodation">
+              <PropertyRef Name="DestinationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Attractio__Desti__52593CB8">
+          <End Role="DestinationMst" Type="Self.DestinationMst" Multiplicity="0..1" />
+          <End Role="AttractionMst" Type="Self.AttractionMst" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DestinationMst">
+              <PropertyRef Name="DestinationID" />
+            </Principal>
+            <Dependent Role="AttractionMst">
+              <PropertyRef Name="DestinationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__CardDetai__UserI__6754599E">
+          <End Role="UserMst" Type="Self.UserMst" Multiplicity="0..1" />
+          <End Role="CardDetails" Type="Self.CardDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserMst">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="CardDetails">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Feedback__Accomm__6477ECF3">
+          <End Role="Accommodation" Type="Self.Accommodation" Multiplicity="0..1" />
+          <End Role="Feedback" Type="Self.Feedback" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Accommodation">
+              <PropertyRef Name="AccommodationID" />
+            </Principal>
+            <Dependent Role="Feedback">
+              <PropertyRef Name="AccommodationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Feedback__Destin__6383C8BA">
+          <End Role="DestinationMst" Type="Self.DestinationMst" Multiplicity="0..1" />
+          <End Role="Feedback" Type="Self.Feedback" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DestinationMst">
+              <PropertyRef Name="DestinationID" />
+            </Principal>
+            <Dependent Role="Feedback">
+              <PropertyRef Name="DestinationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Feedback__UserID__628FA481">
+          <End Role="UserMst" Type="Self.UserMst" Multiplicity="0..1" />
+          <End Role="Feedback" Type="Self.Feedback" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserMst">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Feedback">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__GuidesMst__Desti__4F7CD00D">
+          <End Role="DestinationMst" Type="Self.DestinationMst" Multiplicity="0..1" />
+          <End Role="GuidesMst" Type="Self.GuidesMst" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DestinationMst">
+              <PropertyRef Name="DestinationID" />
+            </Principal>
+            <Dependent Role="GuidesMst">
+              <PropertyRef Name="DestinationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Images__Accommod__5AEE82B9">
+          <End Role="Accommodation" Type="Self.Accommodation" Multiplicity="0..1" />
+          <End Role="Images" Type="Self.Images" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Accommodation">
+              <PropertyRef Name="AccommodationID" />
+            </Principal>
+            <Dependent Role="Images">
+              <PropertyRef Name="AccommodationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Images__Attracti__59FA5E80">
+          <End Role="AttractionMst" Type="Self.AttractionMst" Multiplicity="0..1" />
+          <End Role="Images" Type="Self.Images" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AttractionMst">
+              <PropertyRef Name="AttractionID" />
+            </Principal>
+            <Dependent Role="Images">
+              <PropertyRef Name="AttractionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Images__Destinat__5812160E">
+          <End Role="DestinationMst" Type="Self.DestinationMst" Multiplicity="0..1" />
+          <End Role="Images" Type="Self.Images" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DestinationMst">
+              <PropertyRef Name="DestinationID" />
+            </Principal>
+            <Dependent Role="Images">
+              <PropertyRef Name="DestinationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Images__GuideID__59063A47">
+          <End Role="GuidesMst" Type="Self.GuidesMst" Multiplicity="0..1" />
+          <End Role="Images" Type="Self.Images" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GuidesMst">
+              <PropertyRef Name="GuideID" />
+            </Principal>
+            <Dependent Role="Images">
+              <PropertyRef Name="GuideID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Transacti__CardN__6D0D32F4">
+          <End Role="CardDetails" Type="Self.CardDetails" Multiplicity="0..1" />
+          <End Role="TransactionMst" Type="Self.TransactionMst" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CardDetails">
+              <PropertyRef Name="CardNumber" />
+            </Principal>
+            <Dependent Role="TransactionMst">
+              <PropertyRef Name="CardNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Transacti__Desti__6B24EA82">
+          <End Role="DestinationMst" Type="Self.DestinationMst" Multiplicity="0..1" />
+          <End Role="TransactionMst" Type="Self.TransactionMst" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DestinationMst">
+              <PropertyRef Name="DestinationID" />
+            </Principal>
+            <Dependent Role="TransactionMst">
+              <PropertyRef Name="DestinationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Transacti__Guide__6C190EBB">
+          <End Role="GuidesMst" Type="Self.GuidesMst" Multiplicity="0..1" />
+          <End Role="TransactionMst" Type="Self.TransactionMst" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GuidesMst">
+              <PropertyRef Name="GuideID" />
+            </Principal>
+            <Dependent Role="TransactionMst">
+              <PropertyRef Name="GuideID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Transacti__UserI__6A30C649">
+          <End Role="UserMst" Type="Self.UserMst" Multiplicity="0..1" />
+          <End Role="TransactionMst" Type="Self.TransactionMst" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserMst">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="TransactionMst">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="TourismDMSModelStoreContainer">
+          <EntitySet Name="Accommodation" EntityType="Self.Accommodation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AttractionMst" EntityType="Self.AttractionMst" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CardDetails" EntityType="Self.CardDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DestinationMst" EntityType="Self.DestinationMst" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Feedback" EntityType="Self.Feedback" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GuidesMst" EntityType="Self.GuidesMst" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Images" EntityType="Self.Images" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TransactionMst" EntityType="Self.TransactionMst" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserMst" EntityType="Self.UserMst" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Accommoda__Desti__5535A963" Association="Self.FK__Accommoda__Desti__5535A963">
+            <End Role="DestinationMst" EntitySet="DestinationMst" />
+            <End Role="Accommodation" EntitySet="Accommodation" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Attractio__Desti__52593CB8" Association="Self.FK__Attractio__Desti__52593CB8">
+            <End Role="DestinationMst" EntitySet="DestinationMst" />
+            <End Role="AttractionMst" EntitySet="AttractionMst" />
+          </AssociationSet>
+          <AssociationSet Name="FK__CardDetai__UserI__6754599E" Association="Self.FK__CardDetai__UserI__6754599E">
+            <End Role="UserMst" EntitySet="UserMst" />
+            <End Role="CardDetails" EntitySet="CardDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Feedback__Accomm__6477ECF3" Association="Self.FK__Feedback__Accomm__6477ECF3">
+            <End Role="Accommodation" EntitySet="Accommodation" />
+            <End Role="Feedback" EntitySet="Feedback" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Feedback__Destin__6383C8BA" Association="Self.FK__Feedback__Destin__6383C8BA">
+            <End Role="DestinationMst" EntitySet="DestinationMst" />
+            <End Role="Feedback" EntitySet="Feedback" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Feedback__UserID__628FA481" Association="Self.FK__Feedback__UserID__628FA481">
+            <End Role="UserMst" EntitySet="UserMst" />
+            <End Role="Feedback" EntitySet="Feedback" />
+          </AssociationSet>
+          <AssociationSet Name="FK__GuidesMst__Desti__4F7CD00D" Association="Self.FK__GuidesMst__Desti__4F7CD00D">
+            <End Role="DestinationMst" EntitySet="DestinationMst" />
+            <End Role="GuidesMst" EntitySet="GuidesMst" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Images__Accommod__5AEE82B9" Association="Self.FK__Images__Accommod__5AEE82B9">
+            <End Role="Accommodation" EntitySet="Accommodation" />
+            <End Role="Images" EntitySet="Images" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Images__Attracti__59FA5E80" Association="Self.FK__Images__Attracti__59FA5E80">
+            <End Role="AttractionMst" EntitySet="AttractionMst" />
+            <End Role="Images" EntitySet="Images" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Images__Destinat__5812160E" Association="Self.FK__Images__Destinat__5812160E">
+            <End Role="DestinationMst" EntitySet="DestinationMst" />
+            <End Role="Images" EntitySet="Images" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Images__GuideID__59063A47" Association="Self.FK__Images__GuideID__59063A47">
+            <End Role="GuidesMst" EntitySet="GuidesMst" />
+            <End Role="Images" EntitySet="Images" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Transacti__CardN__6D0D32F4" Association="Self.FK__Transacti__CardN__6D0D32F4">
+            <End Role="CardDetails" EntitySet="CardDetails" />
+            <End Role="TransactionMst" EntitySet="TransactionMst" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Transacti__Desti__6B24EA82" Association="Self.FK__Transacti__Desti__6B24EA82">
+            <End Role="DestinationMst" EntitySet="DestinationMst" />
+            <End Role="TransactionMst" EntitySet="TransactionMst" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Transacti__Guide__6C190EBB" Association="Self.FK__Transacti__Guide__6C190EBB">
+            <End Role="GuidesMst" EntitySet="GuidesMst" />
+            <End Role="TransactionMst" EntitySet="TransactionMst" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Transacti__UserI__6A30C649" Association="Self.FK__Transacti__UserI__6A30C649">
+            <End Role="UserMst" EntitySet="UserMst" />
+            <End Role="TransactionMst" EntitySet="TransactionMst" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="TourismDMSModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Accommodation">
+          <Key>
+            <PropertyRef Name="AccommodationID" />
+          </Key>
+          <Property Name="AccommodationID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DestinationID" Type="Int32" />
+          <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Address" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="MaxCapacity" Type="Int32" />
+          <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Rent" Type="Decimal" Precision="10" Scale="2" />
+          <NavigationProperty Name="DestinationMst" Relationship="Self.FK__Accommoda__Desti__5535A963" FromRole="Accommodation" ToRole="DestinationMst" />
+          <NavigationProperty Name="Feedbacks" Relationship="Self.FK__Feedback__Accomm__6477ECF3" FromRole="Accommodation" ToRole="Feedback" />
+          <NavigationProperty Name="Images" Relationship="Self.FK__Images__Accommod__5AEE82B9" FromRole="Accommodation" ToRole="Images" />
+        </EntityType>
+        <EntityType Name="AttractionMst">
+          <Key>
+            <PropertyRef Name="AttractionID" />
+          </Key>
+          <Property Name="AttractionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DestinationID" Type="Int32" />
+          <Property Name="Activities" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Fees" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="Location" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="DestinationMst" Relationship="Self.FK__Attractio__Desti__52593CB8" FromRole="AttractionMst" ToRole="DestinationMst" />
+          <NavigationProperty Name="Images" Relationship="Self.FK__Images__Attracti__59FA5E80" FromRole="AttractionMst" ToRole="Images" />
+        </EntityType>
+        <EntityType Name="CardDetail">
+          <Key>
+            <PropertyRef Name="CardNumber" />
+          </Key>
+          <Property Name="UserID" Type="Int32" />
+          <Property Name="CardNumber" Type="String" MaxLength="16" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CardHolderName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="ExpiryDate" Type="DateTime" Precision="0" />
+          <Property Name="CVV" Type="Int32" />
+          <NavigationProperty Name="UserMst" Relationship="Self.FK__CardDetai__UserI__6754599E" FromRole="CardDetails" ToRole="UserMst" />
+          <NavigationProperty Name="TransactionMsts" Relationship="Self.FK__Transacti__CardN__6D0D32F4" FromRole="CardDetails" ToRole="TransactionMst" />
+        </EntityType>
+        <EntityType Name="DestinationMst">
+          <Key>
+            <PropertyRef Name="DestinationID" />
+          </Key>
+          <Property Name="DestinationID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DestinationName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="DestinationAddress" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TransportationOptions" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Accommodations" Relationship="Self.FK__Accommoda__Desti__5535A963" FromRole="DestinationMst" ToRole="Accommodation" />
+          <NavigationProperty Name="AttractionMsts" Relationship="Self.FK__Attractio__Desti__52593CB8" FromRole="DestinationMst" ToRole="AttractionMst" />
+          <NavigationProperty Name="Feedbacks" Relationship="Self.FK__Feedback__Destin__6383C8BA" FromRole="DestinationMst" ToRole="Feedback" />
+          <NavigationProperty Name="GuidesMsts" Relationship="Self.FK__GuidesMst__Desti__4F7CD00D" FromRole="DestinationMst" ToRole="GuidesMst" />
+          <NavigationProperty Name="Images" Relationship="Self.FK__Images__Destinat__5812160E" FromRole="DestinationMst" ToRole="Images" />
+          <NavigationProperty Name="TransactionMsts" Relationship="Self.FK__Transacti__Desti__6B24EA82" FromRole="DestinationMst" ToRole="TransactionMst" />
+        </EntityType>
+        <EntityType Name="Feedback">
+          <Key>
+            <PropertyRef Name="FeedbackID" />
+          </Key>
+          <Property Name="FeedbackID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="Int32" />
+          <Property Name="DestinationID" Type="Int32" />
+          <Property Name="AccommodationID" Type="Int32" />
+          <Property Name="AccommodationReview" Type="Int32" />
+          <Property Name="DestinationReview" Type="Int32" />
+          <Property Name="AdditionalComments" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Accommodation" Relationship="Self.FK__Feedback__Accomm__6477ECF3" FromRole="Feedback" ToRole="Accommodation" />
+          <NavigationProperty Name="DestinationMst" Relationship="Self.FK__Feedback__Destin__6383C8BA" FromRole="Feedback" ToRole="DestinationMst" />
+          <NavigationProperty Name="UserMst" Relationship="Self.FK__Feedback__UserID__628FA481" FromRole="Feedback" ToRole="UserMst" />
+        </EntityType>
+        <EntityType Name="GuidesMst">
+          <Key>
+            <PropertyRef Name="GuideID" />
+          </Key>
+          <Property Name="GuideID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DestinationID" Type="Int32" />
+          <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Phone" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="IsAvailable" Type="Boolean" />
+          <Property Name="Email" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Fees" Type="Decimal" Precision="10" Scale="2" />
+          <NavigationProperty Name="DestinationMst" Relationship="Self.FK__GuidesMst__Desti__4F7CD00D" FromRole="GuidesMst" ToRole="DestinationMst" />
+          <NavigationProperty Name="Images" Relationship="Self.FK__Images__GuideID__59063A47" FromRole="GuidesMst" ToRole="Images" />
+          <NavigationProperty Name="TransactionMsts" Relationship="Self.FK__Transacti__Guide__6C190EBB" FromRole="GuidesMst" ToRole="TransactionMst" />
+        </EntityType>
+        <EntityType Name="Image">
+          <Key>
+            <PropertyRef Name="ImageID" />
+          </Key>
+          <Property Name="ImageID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DestinationID" Type="Int32" />
+          <Property Name="GuideID" Type="Int32" />
+          <Property Name="AttractionID" Type="Int32" />
+          <Property Name="AccommodationID" Type="Int32" />
+          <Property Name="Image1" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Accommodation" Relationship="Self.FK__Images__Accommod__5AEE82B9" FromRole="Images" ToRole="Accommodation" />
+          <NavigationProperty Name="AttractionMst" Relationship="Self.FK__Images__Attracti__59FA5E80" FromRole="Images" ToRole="AttractionMst" />
+          <NavigationProperty Name="DestinationMst" Relationship="Self.FK__Images__Destinat__5812160E" FromRole="Images" ToRole="DestinationMst" />
+          <NavigationProperty Name="GuidesMst" Relationship="Self.FK__Images__GuideID__59063A47" FromRole="Images" ToRole="GuidesMst" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="TransactionMst">
+          <Key>
+            <PropertyRef Name="TransactionID" />
+          </Key>
+          <Property Name="TransactionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="Int32" />
+          <Property Name="DestinationID" Type="Int32" />
+          <Property Name="GuideID" Type="Int32" />
+          <Property Name="CardNumber" Type="String" MaxLength="16" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="CardDetail" Relationship="Self.FK__Transacti__CardN__6D0D32F4" FromRole="TransactionMst" ToRole="CardDetails" />
+          <NavigationProperty Name="DestinationMst" Relationship="Self.FK__Transacti__Desti__6B24EA82" FromRole="TransactionMst" ToRole="DestinationMst" />
+          <NavigationProperty Name="GuidesMst" Relationship="Self.FK__Transacti__Guide__6C190EBB" FromRole="TransactionMst" ToRole="GuidesMst" />
+          <NavigationProperty Name="UserMst" Relationship="Self.FK__Transacti__UserI__6A30C649" FromRole="TransactionMst" ToRole="UserMst" />
+        </EntityType>
+        <EntityType Name="UserMst">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Password" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNo" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Address" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="isAdmin" Type="Boolean" />
+          <NavigationProperty Name="CardDetails" Relationship="Self.FK__CardDetai__UserI__6754599E" FromRole="UserMst" ToRole="CardDetails" />
+          <NavigationProperty Name="Feedbacks" Relationship="Self.FK__Feedback__UserID__628FA481" FromRole="UserMst" ToRole="Feedback" />
+          <NavigationProperty Name="TransactionMsts" Relationship="Self.FK__Transacti__UserI__6A30C649" FromRole="UserMst" ToRole="TransactionMst" />
+        </EntityType>
+        <Association Name="FK__Accommoda__Desti__5535A963">
+          <End Role="DestinationMst" Type="Self.DestinationMst" Multiplicity="0..1" />
+          <End Role="Accommodation" Type="Self.Accommodation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DestinationMst">
+              <PropertyRef Name="DestinationID" />
+            </Principal>
+            <Dependent Role="Accommodation">
+              <PropertyRef Name="DestinationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Feedback__Accomm__6477ECF3">
+          <End Role="Accommodation" Type="Self.Accommodation" Multiplicity="0..1" />
+          <End Role="Feedback" Type="Self.Feedback" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Accommodation">
+              <PropertyRef Name="AccommodationID" />
+            </Principal>
+            <Dependent Role="Feedback">
+              <PropertyRef Name="AccommodationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Images__Accommod__5AEE82B9">
+          <End Role="Accommodation" Type="Self.Accommodation" Multiplicity="0..1" />
+          <End Role="Images" Type="Self.Image" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Accommodation">
+              <PropertyRef Name="AccommodationID" />
+            </Principal>
+            <Dependent Role="Images">
+              <PropertyRef Name="AccommodationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Attractio__Desti__52593CB8">
+          <End Role="DestinationMst" Type="Self.DestinationMst" Multiplicity="0..1" />
+          <End Role="AttractionMst" Type="Self.AttractionMst" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DestinationMst">
+              <PropertyRef Name="DestinationID" />
+            </Principal>
+            <Dependent Role="AttractionMst">
+              <PropertyRef Name="DestinationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Images__Attracti__59FA5E80">
+          <End Role="AttractionMst" Type="Self.AttractionMst" Multiplicity="0..1" />
+          <End Role="Images" Type="Self.Image" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AttractionMst">
+              <PropertyRef Name="AttractionID" />
+            </Principal>
+            <Dependent Role="Images">
+              <PropertyRef Name="AttractionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__CardDetai__UserI__6754599E">
+          <End Role="UserMst" Type="Self.UserMst" Multiplicity="0..1" />
+          <End Role="CardDetails" Type="Self.CardDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserMst">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="CardDetails">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Transacti__CardN__6D0D32F4">
+          <End Role="CardDetails" Type="Self.CardDetail" Multiplicity="0..1" />
+          <End Role="TransactionMst" Type="Self.TransactionMst" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CardDetails">
+              <PropertyRef Name="CardNumber" />
+            </Principal>
+            <Dependent Role="TransactionMst">
+              <PropertyRef Name="CardNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Feedback__Destin__6383C8BA">
+          <End Role="DestinationMst" Type="Self.DestinationMst" Multiplicity="0..1" />
+          <End Role="Feedback" Type="Self.Feedback" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DestinationMst">
+              <PropertyRef Name="DestinationID" />
+            </Principal>
+            <Dependent Role="Feedback">
+              <PropertyRef Name="DestinationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__GuidesMst__Desti__4F7CD00D">
+          <End Role="DestinationMst" Type="Self.DestinationMst" Multiplicity="0..1" />
+          <End Role="GuidesMst" Type="Self.GuidesMst" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DestinationMst">
+              <PropertyRef Name="DestinationID" />
+            </Principal>
+            <Dependent Role="GuidesMst">
+              <PropertyRef Name="DestinationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Images__Destinat__5812160E">
+          <End Role="DestinationMst" Type="Self.DestinationMst" Multiplicity="0..1" />
+          <End Role="Images" Type="Self.Image" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DestinationMst">
+              <PropertyRef Name="DestinationID" />
+            </Principal>
+            <Dependent Role="Images">
+              <PropertyRef Name="DestinationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Transacti__Desti__6B24EA82">
+          <End Role="DestinationMst" Type="Self.DestinationMst" Multiplicity="0..1" />
+          <End Role="TransactionMst" Type="Self.TransactionMst" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DestinationMst">
+              <PropertyRef Name="DestinationID" />
+            </Principal>
+            <Dependent Role="TransactionMst">
+              <PropertyRef Name="DestinationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Feedback__UserID__628FA481">
+          <End Role="UserMst" Type="Self.UserMst" Multiplicity="0..1" />
+          <End Role="Feedback" Type="Self.Feedback" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserMst">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Feedback">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Images__GuideID__59063A47">
+          <End Role="GuidesMst" Type="Self.GuidesMst" Multiplicity="0..1" />
+          <End Role="Images" Type="Self.Image" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GuidesMst">
+              <PropertyRef Name="GuideID" />
+            </Principal>
+            <Dependent Role="Images">
+              <PropertyRef Name="GuideID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Transacti__Guide__6C190EBB">
+          <End Role="GuidesMst" Type="Self.GuidesMst" Multiplicity="0..1" />
+          <End Role="TransactionMst" Type="Self.TransactionMst" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GuidesMst">
+              <PropertyRef Name="GuideID" />
+            </Principal>
+            <Dependent Role="TransactionMst">
+              <PropertyRef Name="GuideID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Transacti__UserI__6A30C649">
+          <End Role="UserMst" Type="Self.UserMst" Multiplicity="0..1" />
+          <End Role="TransactionMst" Type="Self.TransactionMst" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserMst">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="TransactionMst">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="TourismDMSEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Accommodations" EntityType="Self.Accommodation" />
+          <EntitySet Name="AttractionMsts" EntityType="Self.AttractionMst" />
+          <EntitySet Name="CardDetails" EntityType="Self.CardDetail" />
+          <EntitySet Name="DestinationMsts" EntityType="Self.DestinationMst" />
+          <EntitySet Name="Feedbacks" EntityType="Self.Feedback" />
+          <EntitySet Name="GuidesMsts" EntityType="Self.GuidesMst" />
+          <EntitySet Name="Images" EntityType="Self.Image" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+          <EntitySet Name="TransactionMsts" EntityType="Self.TransactionMst" />
+          <EntitySet Name="UserMsts" EntityType="Self.UserMst" />
+          <AssociationSet Name="FK__Accommoda__Desti__5535A963" Association="Self.FK__Accommoda__Desti__5535A963">
+            <End Role="DestinationMst" EntitySet="DestinationMsts" />
+            <End Role="Accommodation" EntitySet="Accommodations" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Feedback__Accomm__6477ECF3" Association="Self.FK__Feedback__Accomm__6477ECF3">
+            <End Role="Accommodation" EntitySet="Accommodations" />
+            <End Role="Feedback" EntitySet="Feedbacks" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Images__Accommod__5AEE82B9" Association="Self.FK__Images__Accommod__5AEE82B9">
+            <End Role="Accommodation" EntitySet="Accommodations" />
+            <End Role="Images" EntitySet="Images" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Attractio__Desti__52593CB8" Association="Self.FK__Attractio__Desti__52593CB8">
+            <End Role="DestinationMst" EntitySet="DestinationMsts" />
+            <End Role="AttractionMst" EntitySet="AttractionMsts" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Images__Attracti__59FA5E80" Association="Self.FK__Images__Attracti__59FA5E80">
+            <End Role="AttractionMst" EntitySet="AttractionMsts" />
+            <End Role="Images" EntitySet="Images" />
+          </AssociationSet>
+          <AssociationSet Name="FK__CardDetai__UserI__6754599E" Association="Self.FK__CardDetai__UserI__6754599E">
+            <End Role="UserMst" EntitySet="UserMsts" />
+            <End Role="CardDetails" EntitySet="CardDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Transacti__CardN__6D0D32F4" Association="Self.FK__Transacti__CardN__6D0D32F4">
+            <End Role="CardDetails" EntitySet="CardDetails" />
+            <End Role="TransactionMst" EntitySet="TransactionMsts" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Feedback__Destin__6383C8BA" Association="Self.FK__Feedback__Destin__6383C8BA">
+            <End Role="DestinationMst" EntitySet="DestinationMsts" />
+            <End Role="Feedback" EntitySet="Feedbacks" />
+          </AssociationSet>
+          <AssociationSet Name="FK__GuidesMst__Desti__4F7CD00D" Association="Self.FK__GuidesMst__Desti__4F7CD00D">
+            <End Role="DestinationMst" EntitySet="DestinationMsts" />
+            <End Role="GuidesMst" EntitySet="GuidesMsts" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Images__Destinat__5812160E" Association="Self.FK__Images__Destinat__5812160E">
+            <End Role="DestinationMst" EntitySet="DestinationMsts" />
+            <End Role="Images" EntitySet="Images" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Transacti__Desti__6B24EA82" Association="Self.FK__Transacti__Desti__6B24EA82">
+            <End Role="DestinationMst" EntitySet="DestinationMsts" />
+            <End Role="TransactionMst" EntitySet="TransactionMsts" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Feedback__UserID__628FA481" Association="Self.FK__Feedback__UserID__628FA481">
+            <End Role="UserMst" EntitySet="UserMsts" />
+            <End Role="Feedback" EntitySet="Feedbacks" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Images__GuideID__59063A47" Association="Self.FK__Images__GuideID__59063A47">
+            <End Role="GuidesMst" EntitySet="GuidesMsts" />
+            <End Role="Images" EntitySet="Images" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Transacti__Guide__6C190EBB" Association="Self.FK__Transacti__Guide__6C190EBB">
+            <End Role="GuidesMst" EntitySet="GuidesMsts" />
+            <End Role="TransactionMst" EntitySet="TransactionMsts" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Transacti__UserI__6A30C649" Association="Self.FK__Transacti__UserI__6A30C649">
+            <End Role="UserMst" EntitySet="UserMsts" />
+            <End Role="TransactionMst" EntitySet="TransactionMsts" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="TourismDMSModelStoreContainer" CdmEntityContainer="TourismDMSEntities">
+          <EntitySetMapping Name="Accommodations">
+            <EntityTypeMapping TypeName="TourismDMSModel.Accommodation">
+              <MappingFragment StoreEntitySet="Accommodation">
+                <ScalarProperty Name="AccommodationID" ColumnName="AccommodationID" />
+                <ScalarProperty Name="DestinationID" ColumnName="DestinationID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="MaxCapacity" ColumnName="MaxCapacity" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Rent" ColumnName="Rent" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AttractionMsts">
+            <EntityTypeMapping TypeName="TourismDMSModel.AttractionMst">
+              <MappingFragment StoreEntitySet="AttractionMst">
+                <ScalarProperty Name="AttractionID" ColumnName="AttractionID" />
+                <ScalarProperty Name="DestinationID" ColumnName="DestinationID" />
+                <ScalarProperty Name="Activities" ColumnName="Activities" />
+                <ScalarProperty Name="Fees" ColumnName="Fees" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CardDetails">
+            <EntityTypeMapping TypeName="TourismDMSModel.CardDetail">
+              <MappingFragment StoreEntitySet="CardDetails">
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="CardNumber" ColumnName="CardNumber" />
+                <ScalarProperty Name="CardHolderName" ColumnName="CardHolderName" />
+                <ScalarProperty Name="ExpiryDate" ColumnName="ExpiryDate" />
+                <ScalarProperty Name="CVV" ColumnName="CVV" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DestinationMsts">
+            <EntityTypeMapping TypeName="TourismDMSModel.DestinationMst">
+              <MappingFragment StoreEntitySet="DestinationMst">
+                <ScalarProperty Name="DestinationID" ColumnName="DestinationID" />
+                <ScalarProperty Name="DestinationName" ColumnName="DestinationName" />
+                <ScalarProperty Name="DestinationAddress" ColumnName="DestinationAddress" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="TransportationOptions" ColumnName="TransportationOptions" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Feedbacks">
+            <EntityTypeMapping TypeName="TourismDMSModel.Feedback">
+              <MappingFragment StoreEntitySet="Feedback">
+                <ScalarProperty Name="FeedbackID" ColumnName="FeedbackID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="DestinationID" ColumnName="DestinationID" />
+                <ScalarProperty Name="AccommodationID" ColumnName="AccommodationID" />
+                <ScalarProperty Name="AccommodationReview" ColumnName="AccommodationReview" />
+                <ScalarProperty Name="DestinationReview" ColumnName="DestinationReview" />
+                <ScalarProperty Name="AdditionalComments" ColumnName="AdditionalComments" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GuidesMsts">
+            <EntityTypeMapping TypeName="TourismDMSModel.GuidesMst">
+              <MappingFragment StoreEntitySet="GuidesMst">
+                <ScalarProperty Name="GuideID" ColumnName="GuideID" />
+                <ScalarProperty Name="DestinationID" ColumnName="DestinationID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="IsAvailable" ColumnName="IsAvailable" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Fees" ColumnName="Fees" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Images">
+            <EntityTypeMapping TypeName="TourismDMSModel.Image">
+              <MappingFragment StoreEntitySet="Images">
+                <ScalarProperty Name="ImageID" ColumnName="ImageID" />
+                <ScalarProperty Name="DestinationID" ColumnName="DestinationID" />
+                <ScalarProperty Name="GuideID" ColumnName="GuideID" />
+                <ScalarProperty Name="AttractionID" ColumnName="AttractionID" />
+                <ScalarProperty Name="AccommodationID" ColumnName="AccommodationID" />
+                <ScalarProperty Name="Image1" ColumnName="Image" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="TourismDMSModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TransactionMsts">
+            <EntityTypeMapping TypeName="TourismDMSModel.TransactionMst">
+              <MappingFragment StoreEntitySet="TransactionMst">
+                <ScalarProperty Name="TransactionID" ColumnName="TransactionID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="DestinationID" ColumnName="DestinationID" />
+                <ScalarProperty Name="GuideID" ColumnName="GuideID" />
+                <ScalarProperty Name="CardNumber" ColumnName="CardNumber" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserMsts">
+            <EntityTypeMapping TypeName="TourismDMSModel.UserMst">
+              <MappingFragment StoreEntitySet="UserMst">
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="PhoneNo" ColumnName="PhoneNo" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="isAdmin" ColumnName="isAdmin" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
